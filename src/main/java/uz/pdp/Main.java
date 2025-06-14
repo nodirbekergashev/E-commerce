@@ -216,5 +216,53 @@ public class Main {
         return userService.login(phoneNumber, password);
     }
 
+    static int printMenu() {
+        System.out.println("""
+                1. >>> Register
+                2. >>> Login
+                0. >>> Exit
+                """);
+        System.out.print("Enter to: ");
+        return intScan.nextInt();
+    }
+
+    static int printAdminMenu() {
+        System.out.println("""
+                1. >>> Show All Users
+                2. >>> Delete
+                3. >>> Change Role
+                0. >>> Exit
+                """);
+        System.out.print("Enter to: ");
+        return intScan.nextInt();
+    }
+
+    static int printSellerMenu() {
+        System.out.println("""
+                1. >>> Add Product
+                2. >>> List Products
+                3. >>> Update Product
+                4. >>> Delete Product
+                0. >>> Exit
+                """);
+        System.out.print("Enter to: ");
+        return intScan.nextInt();
+    }
+
+    static int printUserMenu() {
+        System.out.println("""
+                1. >>> Cart
+                2. >>> Products
+                3. >>> Orders
+                4. >>> History
+                5. >>> Update Account
+                0. >>> Exit
+                """);
+        System.out.print("Enter to: ");
+        return intScan.nextInt();
+    }
+
+    public static ArrayList<Category> getChildCategories(UUID parentId) {
+        return categoryService.getChildCategories(parentId);
     }
 }
