@@ -12,14 +12,15 @@ public class OrderService implements BaseService<Order> {
 
     @Override
     public boolean add(Order order) {
-        orders.add(order);
-        return true;
+        if (order != null && order.getId() != null) {
+            orders.add(order);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void update(UUID id, Order order) {
-
-    }
+    public void update(UUID id, Order order) {}
 
     @Override
     public void delete(UUID id) {
@@ -42,5 +43,15 @@ public class OrderService implements BaseService<Order> {
             }
         }
         return null;
+    }
+
+    public ArrayList<Order> getOrdersByUserId(UUID userId) {
+        ArrayList<Order> userOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order != null && order.getUserId().equals(userId) && order.isActive()) {
+                userOrders.add(order);
+            }
+        }
+        return userOrders;
     }
 }

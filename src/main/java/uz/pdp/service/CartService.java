@@ -16,6 +16,15 @@ public class CartService {
         carts.add(new Cart(userId, item));
     }
 
+    public Cart getById(UUID id) {
+        for (Cart cart : carts) {
+            if (cart != null && cart.getId().equals(id)) {
+                return cart;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Cart> showAllCarts() {
         return carts;
     }
@@ -28,5 +37,15 @@ public class CartService {
             }
         }
         return userCarts;
+    }
+
+    public double getTotalPrice(UUID userId) {
+        double total = 0.0;
+        for (Cart cart : carts) {
+            if (cart.getUserId().equals(userId)) {
+                total += cart.getItem().getProduct().getPrice() * cart.getItem().getQuantity();
+            }
+        }
+        return total;
     }
 }

@@ -2,20 +2,19 @@ package uz.pdp.fileUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import uz.pdp.model.Category;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static uz.pdp.fileUtils.JsonFileUtils.mapper;
-
-public class XmlUtils {
+public class XmlUtil {
     private static final XmlMapper xmlMapper;
     static {
         xmlMapper = XmlMapper.builder().build();
     }
 
-    public static <T> void writeToJsonFile(String pathname, T data)  {
+    public static <T> void writeToJsonFile(File pathname, ArrayList<Category> data) {
         try {
             xmlMapper.writerWithDefaultPrettyPrinter()
                     .writeValue(new File("data" + pathname), data);
@@ -25,6 +24,6 @@ public class XmlUtils {
     }
 
     public static <T> ArrayList<T> readFromJsonFile(String pathName) throws IOException{
-        return mapper.readValue(new File(pathName), new TypeReference<ArrayList<T>>() {});
+        return xmlMapper.readValue(new File(pathName), new TypeReference<ArrayList<T>>() {});
     }
 }

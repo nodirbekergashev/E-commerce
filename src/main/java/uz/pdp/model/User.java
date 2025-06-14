@@ -1,5 +1,6 @@
 package uz.pdp.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.*;
 import uz.pdp.baseAbstractions.BaseModel;
 import uz.pdp.enums.UserRole;
@@ -8,6 +9,7 @@ import uz.pdp.enums.UserRole;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JacksonXmlRootElement(localName = "User")
 public class User extends BaseModel {
     private String name;
     private String username;

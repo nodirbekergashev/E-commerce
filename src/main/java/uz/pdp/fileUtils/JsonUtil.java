@@ -4,19 +4,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class JsonFileUtils {
+public class JsonUtil {
     protected static final ObjectMapper mapper;
 
 
     static {
         mapper = JsonMapper.builder().enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER).build();
-
     }
     public static <T> void writeToJsonFile(String pathname, T data)  {
         try {

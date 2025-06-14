@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class ProductService implements BaseService<Product> {
     private ArrayList<Product> products = new ArrayList<>();
+
     @Override
     public boolean add(Product product) {
         products.add(product);
