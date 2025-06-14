@@ -1,5 +1,14 @@
 package uz.pdp;
 
+import uz.pdp.enums.UserRole;
+import uz.pdp.model.*;
+import uz.pdp.service.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
+
 public class Main {
 
     static Scanner strScan = new Scanner(System.in);
