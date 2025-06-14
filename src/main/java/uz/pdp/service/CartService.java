@@ -48,4 +48,12 @@ public class CartService {
         }
         return total;
     }
+    public void delete(UUID id) {
+        Cart cart = getById(id);
+        if (cart != null) {
+            carts.remove(cart);
+        } else {
+            System.out.println("Cart not found");
+        }
+    }
 }
