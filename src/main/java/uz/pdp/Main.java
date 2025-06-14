@@ -1,6 +1,16 @@
 package uz.pdp;
 
 public class Main {
+
+    static Scanner strScan = new Scanner(System.in);
+    static Scanner intScan = new Scanner(System.in);
+    static UserService userService = new UserService();
+    static CartService cartService = new CartService();
+    static CategoryService categoryService = new CategoryService();
+    static OrderService orderService = new OrderService();
+    static ProductService productService = new ProductService();
+
+
     public static void main(String[] args) {
         int stepCode = 13;
         while (stepCode != 0) {
