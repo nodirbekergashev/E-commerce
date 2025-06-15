@@ -12,4 +12,5 @@ import java.util.UUID;
 public class Order extends BaseModel {
     private UUID userId;
     private UUID productId;
+    private double  totalPrice;
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class CartService {
-    private final ArrayList<Cart> carts = new ArrayList<>();
+    public static final ArrayList<Cart> carts = new ArrayList<>();
 
     public void add(UUID userId, Product product, int quantity) {
         Cart.CartItem item = new Cart.CartItem(product, quantity);
@@ -48,6 +48,7 @@ public class CartService {
         }
         return total;
     }
+
     public void delete(UUID id) {
         Cart cart = getById(id);
         if (cart != null) {

@@ -168,8 +168,8 @@ public class Main {
                                                 System.out.println(cart.getItem().getProduct().getName() + " - " + cart.getItem().getQuantity() + " pcs");
                                             }
                                         }
-
                                     }
+
                                     case 2 -> {
                                         ArrayList<Category> categories = categoryService.showAll();
                                         if (categories.isEmpty()) {
@@ -186,11 +186,18 @@ public class Main {
                                             System.out.println("You selected category: " + category.getName());
                                             if (getChildCategories(category.getId()).isEmpty()) {
                                                 ArrayList<Product> byCategory = productService.getByCategory(category);
-
+                                                for (Product product : byCategory) {
+                                                    System.out.println("Product Name: " + product.getName() +
+                                                            ", Price: " + product.getPrice() +
+                                                            ", Seller: " + userService.getById(product.getSellerId()).getName());
+                                                }
                                             }
                                         }
                                     }
-                                    case 3 -> System.out.println("Orders functionality not implemented yet.");
+                                    case 3 -> {
+                                        orderService.getOrdersByUserId(currentUser.getId())
+                                                .forEach(order -> System.out.println("Order ID: " + order.getId() + ", Total: " + order.getTotalPrice()));;
+                                    }
                                     case 4 -> {
                                         ArrayList<Order> historyByUser = orderService.getHistoryByUserId(currentUser.getId());
                                         if (historyByUser.isEmpty()) {

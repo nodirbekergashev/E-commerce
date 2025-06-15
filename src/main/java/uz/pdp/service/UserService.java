@@ -1,6 +1,7 @@
 package uz.pdp.service;
 
 import uz.pdp.baseAbstractions.BaseService;
+import uz.pdp.enums.UserRole;
 import uz.pdp.model.User;
 
 import java.util.ArrayList;
@@ -10,7 +11,11 @@ import java.util.UUID;
 
 public class UserService implements BaseService<User> {
     public static ArrayList<User> users = new ArrayList<>();
-
+    public UserService() {
+        if (users.isEmpty()) {
+            users.add(new User(UserRole.ADMIN)); // SuperAdmin
+        }
+    }
     @Override
     public boolean add(User user) {
         if (!isDefined(user)) {
@@ -68,7 +73,7 @@ public class UserService implements BaseService<User> {
         return null;
     }
 
-    private User login(String username, String password) {
+    public User login(String username, String password) {
         User userByUsername = getUserByUsername(username);
         if (userByUsername != null && userByUsername.getPassword().equals(password)) {
             return userByUsername;
@@ -76,12 +81,20 @@ public class UserService implements BaseService<User> {
         return null;
     }
 
-    private User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         for (User user : users) {
             if (user != null && user.getUsername().equals(username)) {
                 return user;
             }
         }
         return null;
+    }
+    public void changeUserRole(String username, UserRole newRole) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                user.setRole(newRole);
+                return;
+            }
+        }
     }
 }

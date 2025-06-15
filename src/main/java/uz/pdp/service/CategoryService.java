@@ -54,8 +54,8 @@ public class CategoryService implements BaseService<Category> {
     }
 
     @Override
-    public List<Category> showAll() {
-        return List.of();
+    public ArrayList<Category> showAll() {
+        return categories;
     }
 
     @Override
@@ -66,5 +66,14 @@ public class CategoryService implements BaseService<Category> {
             }
         }
         return null;
+    }
+    public ArrayList<Category> getChildCategories(UUID parentId) {
+        ArrayList<Category> childCategories = new ArrayList<>();
+        for (Category category : categories) {
+            if (category.getParentId().equals(parentId)) {
+                childCategories.add(category);
+            }
+        }
+        return childCategories;
     }
 }

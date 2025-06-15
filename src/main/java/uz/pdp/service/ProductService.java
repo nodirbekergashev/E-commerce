@@ -1,6 +1,7 @@
 package uz.pdp.service;
 
 import uz.pdp.baseAbstractions.BaseService;
+import uz.pdp.model.Category;
 import uz.pdp.model.Product;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ProductService implements BaseService<Product> {
         return sellerProducts;
     }
 
-    public List<Product> getByCategory(Category category) {
+    public ArrayList<Product> getByCategory(Category category) {
         List<Product> result = new ArrayList<>();
         for(Product p : products) {
             if(p != null && p.getCategory().equals(category) && p.isActive()) {
@@ -52,8 +53,11 @@ public class ProductService implements BaseService<Product> {
 
     @Override
     public boolean add(Product product) {
-        products.add(product);
-        return true;
+        if (!isDefined(product.getSellerId(), product.getName())) {
+            products.add(product);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -90,4 +94,5 @@ public class ProductService implements BaseService<Product> {
         }
         return null;
     }
+
 }

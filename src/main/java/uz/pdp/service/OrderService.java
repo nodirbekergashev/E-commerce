@@ -20,7 +20,8 @@ public class OrderService implements BaseService<Order> {
     }
 
     @Override
-    public void update(UUID id, Order order) {}
+    public void update(UUID id, Order order) {
+    }
 
     @Override
     public void delete(UUID id) {
@@ -53,5 +54,25 @@ public class OrderService implements BaseService<Order> {
             }
         }
         return userOrders;
+    }
+
+    public ArrayList<Order> getHistoryByUserId(UUID userId) {
+        ArrayList<Order> userOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order != null && order.getUserId().equals(userId)) {
+                userOrders.add(order);
+            }
+        }
+        return userOrders;
+    }
+
+    public double getTotalPriceByUserId(UUID userId) {
+        double totalPrice = 0;
+        for (Order order : orders) {
+            if (order != null && order.getUserId().equals(userId) && order.isActive()) {
+                totalPrice += order.getTotalPrice();
+            }
+        }
+        return totalPrice;
     }
 }
