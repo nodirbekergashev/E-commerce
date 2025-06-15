@@ -12,19 +12,12 @@ import java.util.UUID;
 public abstract class BaseModel {
     private final UUID id;
     @Setter
-    private boolean isActive;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private boolean isActive;;
 
     public BaseModel() {
         this.id = UUID.randomUUID();
         this.isActive = true;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = createdAt;
     }
 
-    public void updateTimestamp() { // qachondir nimadir o'zgarganda chaqiriladi va updated at o'zgartirib boriladi
-        this.updatedAt = LocalDateTime.now();
-    }
 
 }

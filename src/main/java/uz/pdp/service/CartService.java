@@ -8,12 +8,16 @@ import java.util.ArrayList;
 
 import java.util.UUID;
 
+import static uz.pdp.fileUtils.JsonUtil.writeToJsonFile;
+
 public class CartService {
     public static final ArrayList<Cart> carts = new ArrayList<>();
+    private static final String pathname = "carts.json";
 
     public void add(UUID userId, Product product, int quantity) {
         Cart.CartItem item = new Cart.CartItem(product, quantity);
         carts.add(new Cart(userId, item));
+        saveCartsToFile();
     }
 
     public Cart getById(UUID id) {
@@ -53,8 +57,13 @@ public class CartService {
         Cart cart = getById(id);
         if (cart != null) {
             carts.remove(cart);
+            saveCartsToFile();
         } else {
             System.out.println("Cart not found");
         }
+    }
+
+    private void saveCartsToFile() {
+        writeToJsonFile(pathname, carts);
     }
 }

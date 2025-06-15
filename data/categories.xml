@@ -1,0 +1,20 @@
+<Categories>
+  <category>
+    <id>c9b9582d-9ef9-4f21-ac16-21131122006d</id>
+    <active>true</active>
+    <name>Electronics</name>
+    <parentId>00000000-0000-0000-0000-000000000000</parentId>
+  </category>
+  <category>
+    <id>c9b9582d-9ef9-4f21-ac16-21131122006e</id>
+    <active>true</active>
+    <name>knives</name>
+    <parentId>13131313-1313-1313-1313-131313131313</parentId>
+  </category>
+  <category>
+    <id>13131313-1313-1313-1313-131313131313</id>
+    <active>true</active>
+    <name>kn</name>
+    <parentId>00000000-0000-0000-0000-000000000000</parentId>
+  </category>
+</Categories>

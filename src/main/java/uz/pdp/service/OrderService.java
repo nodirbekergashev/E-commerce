@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static uz.pdp.fileUtils.JsonUtil.writeToJsonFile;
+
 public class OrderService implements BaseService<Order> {
     private final ArrayList<Order> orders = new ArrayList<>();
 
@@ -14,6 +16,7 @@ public class OrderService implements BaseService<Order> {
     public boolean add(Order order) {
         if (order != null && order.getId() != null) {
             orders.add(order);
+            saveOrdersToFile();
             return true;
         }
         return false;
@@ -28,6 +31,7 @@ public class OrderService implements BaseService<Order> {
         Order deletingOrder = getById(id);
         if (deletingOrder != null) {
             deletingOrder.setActive(false);
+            saveOrdersToFile();
         }
     }
 
@@ -74,5 +78,9 @@ public class OrderService implements BaseService<Order> {
             }
         }
         return totalPrice;
+    }
+
+    private void saveOrdersToFile() {
+        writeToJsonFile("orders.json", orders);
     }
 }

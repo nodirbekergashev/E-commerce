@@ -3,31 +3,48 @@ package uz.pdp.service;
 import uz.pdp.baseAbstractions.BaseService;
 import uz.pdp.enums.UserRole;
 import uz.pdp.model.User;
+import uz.pdp.wrapper.UserListWrapper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static uz.pdp.fileUtils.XmlUtil.readFromXmlFile;
+import static uz.pdp.fileUtils.XmlUtil.writeToXmlFile;
+
 public class UserService implements BaseService<User> {
-    public static ArrayList<User> users = new ArrayList<>();
+    public static List<User> users = new ArrayList<>();
+    private static final String pathName = "users.xml";
+
+    static {
+        users = readFromXmlFile(pathName, User.class);
+    }
+
     public UserService() {
         if (users.isEmpty()) {
-            users.add(new User(UserRole.ADMIN)); // SuperAdmin
+            User user = new User(); // SuperAdmin
+            user.setUsername("admin");
+            user.setPassword("123");
+            user.setRole(UserRole.ADMIN
+            );
         }
     }
+
     @Override
     public boolean add(User user) {
-        if (!isDefined(user)) {
+        if (!isUsed(user)) {
             users.add(user);
+            saveUsersToFile();
             return true;
         }
         return false;
     }
 
-    private boolean isDefined(User user) {
+    private boolean isUsed(User user) {
         for (User u : users) {
-            if (u != null && Objects.equals(u, user)) {
+            if (u != null && Objects.equals(u.getUsername(), user.getUsername())) {
                 return true;
             }
         }
@@ -35,7 +52,7 @@ public class UserService implements BaseService<User> {
     }
 
     public boolean isUsernameValid(String username) {
-        return username.matches("^[a-z_]{4,13}$");
+        return username.matches("^[a-zA-Z0-9_]{4,13}$");
     }
 
     @Override
@@ -46,7 +63,6 @@ public class UserService implements BaseService<User> {
             old.setRole(user.getRole());
             old.setUsername(user.getUsername());
             old.setPassword(user.getPassword());
-            old.updateTimestamp();
         }
     }
 
@@ -55,6 +71,7 @@ public class UserService implements BaseService<User> {
         User deletingUser = getById(id);
         if (deletingUser != null) {
             deletingUser.setActive(false);
+            saveUsersToFile();
         }
     }
 
@@ -89,12 +106,19 @@ public class UserService implements BaseService<User> {
         }
         return null;
     }
+
     public void changeUserRole(String username, UserRole newRole) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
                 user.setRole(newRole);
+                saveUsersToFile();
                 return;
             }
         }
     }
+
+    private void saveUsersToFile() {
+        writeToXmlFile(new File(pathName), new UserListWrapper(users));
+    }
+
 }

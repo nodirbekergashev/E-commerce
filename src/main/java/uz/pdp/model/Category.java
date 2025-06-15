@@ -1,5 +1,6 @@
 package uz.pdp.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.*;
 import uz.pdp.baseAbstractions.BaseModel;
@@ -10,12 +11,18 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-@JacksonXmlRootElement(localName = "Category")
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@JacksonXmlRootElement(localName = "Categories")
 
 public class Category extends BaseModel {
-    private String name;//apple//telefon
-    private UUID parentId;//telefon//elektronika
+    public static final UUID PARENT_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+    @JacksonXmlProperty(localName = "name")
+    private String name;
+
+    @JacksonXmlProperty(localName = "parentId")
+    private UUID parentId;
 }
 
 

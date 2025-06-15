@@ -1,53 +1,21 @@
 package uz.pdp.service;
 
 import uz.pdp.baseAbstractions.BaseService;
-import uz.pdp.model.Category;
 import uz.pdp.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static uz.pdp.fileUtils.JsonUtil.readFromJsonFile;
+import static uz.pdp.fileUtils.JsonUtil.writeToJsonFile;
+
 public class ProductService implements BaseService<Product> {
-    private ArrayList<Product> products = new ArrayList<>();
+    public static ArrayList<Product> products = new ArrayList<>();
+    static String pathName = "products.json";
 
-    public List<Product> showAllProducts(UUID sellerId) {
-        ArrayList<Product> sellerProducts = new ArrayList<>();
-        for (Product p : products) {
-            if (p != null && p.getSellerId().equals(sellerId)) {
-                sellerProducts.add(p);
-            }
-        }
-        return sellerProducts;
-    }
-
-    public ArrayList<Product> getByCategory(Category category) {
-        List<Product> result = new ArrayList<>();
-        for(Product p : products) {
-            if(p != null && p.getCategory().equals(category) && p.isActive()) {
-                result.add(p);
-            }
-        }
-        return result;
-    }
-
-    public List<Product> searchByName(String name) {
-        List<Product> result = new ArrayList<>();
-        for (Product p : products) {
-            if (p != null && p.isActive() && p.getName().toLowerCase().contains(name.toLowerCase())) {
-                result.add(p);
-            }
-        }
-        return result;
-    }
-
-    private boolean isDefined( UUID sellerId, String productName) {
-        for (Product product : products) {
-            if (product.getSellerId().equals(sellerId) && product.getName().equalsIgnoreCase(productName)) {
-                return true;
-            }
-        }
-        return false;
+    public  ProductService() {
+        products = readFromJsonFile(pathName, Product.class);
     }
 
 
@@ -55,6 +23,7 @@ public class ProductService implements BaseService<Product> {
     public boolean add(Product product) {
         if (!isDefined(product.getSellerId(), product.getName())) {
             products.add(product);
+            saveProductsToFile();
             return true;
         }
         return false;
@@ -68,7 +37,8 @@ public class ProductService implements BaseService<Product> {
             old.setName(product.getName());
             old.setPrice(product.getPrice());
             old.setActive(product.isActive());
-            old.updateTimestamp();
+            old.setSellerId(product.getSellerId());
+            saveProductsToFile();
         }
     }
 
@@ -77,6 +47,7 @@ public class ProductService implements BaseService<Product> {
         Product deletingProduct = getById(id);
         if (deletingProduct != null) {
             deletingProduct.setActive(false);
+            saveProductsToFile();
         }
     }
 
@@ -95,4 +66,45 @@ public class ProductService implements BaseService<Product> {
         return null;
     }
 
+    public List<Product> showAllProductsBySellerId(UUID sellerId) {
+        ArrayList<Product> sellerProducts = new ArrayList<>();
+        for (Product p : products) {
+            if (p != null && p.getSellerId().equals(sellerId)) {
+                sellerProducts.add(p);
+            }
+        }
+        return sellerProducts;
+    }
+
+    public ArrayList<Product> getByCategory(String categoryName) {
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product p : products) {
+            if (p != null && p.getCategory().getName().equals(categoryName) && p.isActive()) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    public List<Product> searchByName(String name) {
+        List<Product> result = new ArrayList<>();
+        for (Product p : products) {
+            if (p != null && p.isActive() && p.getName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    private boolean isDefined(UUID sellerId, String productName) {
+        for (Product product : products) {
+            if (product.getSellerId().equals(sellerId) && product.getName().equalsIgnoreCase(productName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void saveProductsToFile() {
+        writeToJsonFile(pathName, products);
+    }
 }

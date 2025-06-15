@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Data
 public class Order extends BaseModel {
     private UUID userId;

@@ -1,7 +1,8 @@
 package uz.pdp.service;
 
+import uz.pdp.wrapper.CategoryListWrapper;
 import uz.pdp.baseAbstractions.BaseService;
-import uz.pdp.fileUtils.XmlUtil;
+
 import uz.pdp.model.Category;
 
 import java.io.File;
@@ -9,13 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static uz.pdp.fileUtils.XmlUtil.readFromXmlFile;
+import static uz.pdp.fileUtils.XmlUtil.writeToXmlFile;
+import static uz.pdp.model.Category.PARENT_ID;
+
 public class CategoryService implements BaseService<Category> {
-    private static final ArrayList<Category> categories = new ArrayList<>();
+    private static List<Category> categories = new ArrayList<>();
+    private static final String pathName = "categories.xml";
+
+    static {
+        categories = readFromXmlFile(pathName, Category.class);
+    }
 
     @Override
     public boolean add(Category category) {
         categories.add(category);
-        XmlUtil.writeToJsonFile(new File("data/categories.xml"), categories);
+        saveCategoriesToFile();
         return true;
     }
 
@@ -34,7 +44,7 @@ public class CategoryService implements BaseService<Category> {
         if (category != null) {
             category.setActive(false);
             deleteChildCategories(category.getId());
-            category.updateTimestamp();
+            saveCategoriesToFile();
         }
     }
 
@@ -48,13 +58,12 @@ public class CategoryService implements BaseService<Category> {
         if (childCategories.isEmpty()) return;
         for (Category c : childCategories) {
             c.setActive(false);
-            c.updateTimestamp();
             deleteChildCategories(c.getId());
         }
     }
 
     @Override
-    public ArrayList<Category> showAll() {
+    public List<Category> showAll() {
         return categories;
     }
 
@@ -67,13 +76,37 @@ public class CategoryService implements BaseService<Category> {
         }
         return null;
     }
+
     public ArrayList<Category> getChildCategories(UUID parentId) {
+        Category categoryByName = getById(parentId);
+        parentId = categoryByName != null ? categoryByName.getId() : PARENT_ID;
         ArrayList<Category> childCategories = new ArrayList<>();
         for (Category category : categories) {
-            if (category.getParentId().equals(parentId)) {
+            if (category.getParentId().equals(parentId) && category.isActive()) {
                 childCategories.add(category);
             }
         }
         return childCategories;
+    }
+
+    private void saveCategoriesToFile() {
+        writeToXmlFile(new File(pathName), new CategoryListWrapper(categories));
+    }
+
+    public Category getCategoryByName(String s) {
+        for (Category category : categories) {
+            if (category != null && category.getName().equalsIgnoreCase(s)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    public Category getParentCategory(UUID id) {
+        Category category = getById(id);
+        if (category != null) {
+            return getById(category.getParentId());
+        }
+        return null;
     }
 }
