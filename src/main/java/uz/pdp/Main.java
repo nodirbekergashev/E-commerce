@@ -44,7 +44,7 @@ public class Main {
                                     case 7 -> changePasswordPage(currentUser);
                                     case 8 -> addCategory();
                                     case 9 -> adminStepCode = logout();
-                                    case 0 -> System.exit(0);
+                                    case 0 -> System.exit(13);
                                     default -> {
                                         System.out.println("Invalid input, try again!");
                                         printAdminMenu();
@@ -662,46 +662,7 @@ public class Main {
         }
     }
 
-//    private static UUID addProductByCategory() {
-//        UUID currId = null;
-//
-//        while (true) {
-//            UUID finalId = currId;
-//            List<Category> categories = categoryService.showAll();
-//            List<Category> children = new ArrayList<>();
-//
-//            for (Category category : categories) {
-//                if (Objects.equals(category.getParentId(), finalId)) {
-//                    children.add(category);
-//                }
-//            }
-//
-//            Category currCat = categoryService.getById(finalId);
-//
-//            if (currCat == null) {
-//                System.out.println("0. Head (current)");
-//            } else {
-//                System.out.printf("0. %s (current)\n", currCat.getName());
-//            }
-//
-//            System.out.println("Sub categories");
-//            int c = 1;
-//            for (Category child : children) {
-//                System.out.println(c++ + ". " + child.getName());
-//            }
-//            System.out.print("Select category: ");
-//            int res = intScan.nextInt();
-//
-//            if (res == 0) return currId;
-//
-//            int idx = res - 1;
-//            if (idx >= 0 && idx < children.size()) {
-//                currId = children.get(idx).getId();
-//            } else {
-//                System.out.println("Invalid command!");
-//            }
-//        }
-//    }
+
 
     private static UUID chooseParentCategory() {
         UUID currId = PARENT_ID;

@@ -1,7 +1,7 @@
 <Users>
   <user>
     <id>ddfd41f8-8892-4b5c-b42f-fd36a6ac92ae</id>
-    <name></name>
+    <name>Nimadir</name>
     <username>admin</username>
     <password>123</password>
     <role>ADMIN</role>
@@ -37,7 +37,7 @@
     <username>loser</username>
     <password>123</password>
     <role>CUSTOMER</role>
-    <active>true</active>
+    <active>false</active>
   </user>
   <user>
     <id>38b6cbd6-df3a-44d0-9467-51558a25d0dd</id>
