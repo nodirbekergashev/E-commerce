@@ -71,4 +71,12 @@
     <role>CUSTOMER</role>
     <active>true</active>
   </user>
+  <user>
+    <id>9cf824de-c20d-4657-b440-aa236943a621</id>
+    <name>Ali</name>
+    <username>Aliyev</username>
+    <password>1111</password>
+    <role>CUSTOMER</role>
+    <active>true</active>
+  </user>
 </Users>

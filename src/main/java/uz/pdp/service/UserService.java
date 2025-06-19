@@ -8,7 +8,6 @@ import uz.pdp.wrapper.UserListWrapper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import static uz.pdp.fileUtils.XmlUtil.readFromXmlFile;
@@ -34,17 +33,17 @@ public class UserService implements BaseService<User> {
 
     @Override
     public boolean add(User user) {
-        if (!isUsed(user)) {
-            users.add(user);
-            saveUsersToFile();
-            return true;
+        if (isUsed(user)) {
+            return false;
         }
-        return false;
+        users.add(user);
+        saveUsersToFile();
+        return true;
     }
 
     private boolean isUsed(User user) {
         for (User u : users) {
-            if (u != null && Objects.equals(u.getUsername(), user.getUsername())) {
+            if (u.getUsername().equals(user.getUsername())) {
                 return true;
             }
         }
@@ -83,7 +82,7 @@ public class UserService implements BaseService<User> {
     @Override
     public User getById(UUID id) {
         for (User user : users) {
-            if (user != null && user.getId().equals(id)) {
+            if (user.getId().equals(id)) {
                 return user;
             }
         }
@@ -91,9 +90,9 @@ public class UserService implements BaseService<User> {
     }
 
     public User login(String username, String password) {
-        User userByUsername = getUserByUsername(username);
-        if (userByUsername != null && userByUsername.getPassword().equals(password)) {
-            return userByUsername;
+        User user = getUserByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
         }
         return null;
     }

@@ -7,6 +7,7 @@ import uz.pdp.enums.UserRole;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JacksonXmlRootElement(localName = "User")

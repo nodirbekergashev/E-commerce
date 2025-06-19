@@ -20,7 +20,7 @@ public class Main {
     static User currentUser;
 
     public static void main(String[] args) {
-        int stepCode = 13;
+        int stepCode = 10;
         while (stepCode != 0) {
             stepCode = printMenu();
             switch (stepCode) {
@@ -203,6 +203,8 @@ public class Main {
                                 stepCodeUser = printUserMenu();
                             }
                         }
+                    }else{
+                        System.out.println("User not found!");
                     }
                 }
                 case 3 -> System.out.println("Exiting...");
