@@ -31,7 +31,6 @@ public class XmlUtil {
         try {
             File file = new File(DATA + pathName);
             if (file.length() == 0) {
-                System.out.println("Xatolik: Fayl bo‘sh.");
                 return new ArrayList<>();
             }
             return xmlMapper.readValue(file, xmlMapper.getTypeFactory().constructCollectionType(List.class, clazz));

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JsonUtil {
     protected static final ObjectMapper mapper;
-
+    private static final String DATA = "data/";
 
     static {
         mapper = JsonMapper.builder().enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER).build();
@@ -23,7 +23,7 @@ public class JsonUtil {
     public static <T> void writeToJsonFile(String pathname, T data) {
         try {
             mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new File("data/" + pathname), data);
+                    .writeValue(new File(DATA + pathname), data);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -31,7 +31,10 @@ public class JsonUtil {
 
     public static <T> ArrayList<T> readFromJsonFile(String pathName, Class<T> valueType) {
         try {
-            return mapper.readValue(new File("data/" + pathName),
+            if (new File(DATA + pathName).length() == 0) {
+                return new ArrayList<>();
+            }
+            return mapper.readValue(new File(DATA + pathName),
                     mapper.getTypeFactory().constructCollectionType(List.class, valueType));
         } catch (IOException e) {
             System.err.println("Error to read from file: " + e.getMessage());
